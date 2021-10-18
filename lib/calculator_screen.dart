@@ -39,6 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 top: 20,
               ),
               child: new TextField(
+                textInputAction: TextInputAction.none,
+                keyboardType: TextInputType.none,
                 decoration: new InputDecoration.collapsed(
                     hintText: "0",
                     hintStyle: TextStyle(
@@ -51,8 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 textAlign: TextAlign.right,
                 controller: txtEntrada,
-                onTap: () =>
-                    FocusScope.of(context).requestFocus(new FocusNode()),
               )),
           new Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     fillColor: Colors.deepPurpleAccent,
                     hintStyle: TextStyle(fontFamily: 'RobotoMono')),
                 textInputAction: TextInputAction.none,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.none,
                 style: TextStyle(
                     fontSize: 42,
                     fontFamily: 'RobotoMono',
