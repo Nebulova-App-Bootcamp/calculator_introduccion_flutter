@@ -1,16 +1,15 @@
+import 'package:explication_calculator/controllers/calculator_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:math_expressions/math_expressions.dart';
-
-final txtEntrada = TextEditingController();
-final txtResultado = TextEditingController();
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final CalculatorController c = Get.put(CalculatorController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -25,42 +24,71 @@ class MyHomePage extends StatelessWidget {
               right: 20.0,
               top: 20,
             ),
-            child: TextField(
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              textInputAction: TextInputAction.none,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration.collapsed(
-                  hintText: "0",
-                  hintStyle: TextStyle(
+            child: Obx(
+              () => Container(
+                color: Colors.white,
+                child: Text(
+                  c.txtEntrada.value,
+                  style: const TextStyle(
                     fontSize: 40,
                     fontFamily: 'RobotoMono',
-                  )),
-              style: const TextStyle(
-                fontSize: 40,
-                fontFamily: 'RobotoMono',
+                  ),
+                  textAlign: TextAlign.end,
+                ),
               ),
-              textAlign: TextAlign.right,
-              controller: txtEntrada,
             ),
+
+            // TextField(
+            //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            //   textInputAction: TextInputAction.none,
+            //   keyboardType: TextInputType.number,
+            //   decoration: const InputDecoration.collapsed(
+            //       hintText: "0",
+            //       hintStyle: TextStyle(
+            //         fontSize: 40,
+            //         fontFamily: 'RobotoMono',
+            //       )),
+            //   style: const TextStyle(
+            //     fontSize: 40,
+            //     fontFamily: 'RobotoMono',
+            //   ),
+            //   textAlign: TextAlign.right,
+            //   controller: c.txtEntrada,
+            // ),
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                decoration: const InputDecoration.collapsed(
-                    hintText: "Resultado",
-                    fillColor: Colors.deepPurpleAccent,
-                    hintStyle: TextStyle(fontFamily: 'RobotoMono')),
-                textInputAction: TextInputAction.none,
-                keyboardType: TextInputType.number,
-                style: const TextStyle(
-                    fontSize: 42,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Obx(
+              () => Container(
+                color: Colors.white,
+                child: Text(
+                  c.txtResultado.value,
+                  style: const TextStyle(
+                    fontSize: 40,
                     fontFamily: 'RobotoMono',
-                    fontWeight: FontWeight.bold
-                    // color: Colors.deepPurpleAccent
-                    ),
-                textAlign: TextAlign.right,
-                controller: txtResultado,
-              )),
+                  ),
+                  textAlign: TextAlign.end,
+                ),
+              ),
+            ),
+
+            // TextField(
+            //   decoration: const InputDecoration.collapsed(
+            //       hintText: "Resultado",
+            //       fillColor: Colors.deepPurpleAccent,
+            //       hintStyle: TextStyle(fontFamily: 'RobotoMono')),
+            //   textInputAction: TextInputAction.none,
+            //   keyboardType: TextInputType.number,
+            //   style: const TextStyle(
+            //       fontSize: 42,
+            //       fontFamily: 'RobotoMono',
+            //       fontWeight: FontWeight.bold
+            //       // color: Colors.deepPurpleAccent
+            //       ),
+            //   textAlign: TextAlign.right,
+            //   controller: c.txtResultado,
+            // ),
+          ),
           GridView.count(
             shrinkWrap: true,
             padding: const EdgeInsets.all(20),
@@ -106,6 +134,8 @@ class MyHomePage extends StatelessWidget {
   }
 
   Widget boton(btntxt, Color btnColor) {
+    final CalculatorController c = Get.find();
+
     return Container(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: TextButton(
@@ -125,6 +155,8 @@ class MyHomePage extends StatelessWidget {
               fontSize: 28.0, color: Colors.black, fontFamily: 'RobotoMono'),
         ),
         onPressed: () {
+          c.txtEntrada.value = c.txtEntrada.value + btntxt;
+          //c.txtEntrada.text = c.txtEntrada.text + btntxt;
           // setState(() {
           //   txtEntrada.text = txtEntrada.text + btntxt;
           // });
@@ -134,6 +166,7 @@ class MyHomePage extends StatelessWidget {
   }
 
   Widget btnAC(btntext, Color btnColor) {
+    final CalculatorController c = Get.find();
     return Container(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: TextButton(
@@ -153,6 +186,10 @@ class MyHomePage extends StatelessWidget {
               fontSize: 28.0, color: Colors.black, fontFamily: 'RobotoMono'),
         ),
         onPressed: () {
+          c.txtEntrada.value = "";
+          c.txtResultado.value = "";
+          // c.txtEntrada.text = "";
+          // c.txtResultado.text = "";
           // setState(() {
           //   txtEntrada.text = "";
           //   txtResultado.text = "";
@@ -163,6 +200,7 @@ class MyHomePage extends StatelessWidget {
   }
 
   Widget btnBorrar() {
+    final CalculatorController c = Get.find();
     return Container(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: TextButton(
@@ -177,6 +215,12 @@ class MyHomePage extends StatelessWidget {
         ),
         child: const Icon(Icons.backspace, size: 35, color: Colors.blueGrey),
         onPressed: () {
+          c.txtEntrada.value = (c.txtEntrada.value.isNotEmpty)
+              ? (c.txtEntrada.value.substring(0, c.txtEntrada.value.length - 1))
+              : "";
+          // c.txtEntrada.text = (c.txtEntrada.text.isNotEmpty)
+          //     ? (c.txtEntrada.text.substring(0, c.txtEntrada.text.length - 1))
+          //     : "";
           // setState(() {
           //   txtEntrada.text = (txtEntrada.text.isNotEmpty)
           //       ? (txtEntrada.text.substring(0, txtEntrada.text.length - 1))
@@ -188,6 +232,7 @@ class MyHomePage extends StatelessWidget {
   }
 
   Widget btnIgual() {
+    final CalculatorController c = Get.find();
     return Container(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: TextButton(
@@ -205,9 +250,16 @@ class MyHomePage extends StatelessWidget {
               fontSize: 28.0, color: Colors.white, fontFamily: 'RobotoMono'),
         ),
         onPressed: () {
-          // Parser p = new Parser();
-          // ContextModel ctxtm = new ContextModel();
-          // Expression exp = p.parse(txtEntrada.text);
+          Parser p = Parser();
+          ContextModel ctxtm = ContextModel();
+          Expression exp = p.parse(c.txtEntrada.value);
+          c.txtResultado.value =
+              exp.evaluate(EvaluationType.REAL, ctxtm).toString();
+          // Parser p = Parser();
+          // ContextModel ctxtm = ContextModel();
+          // Expression exp = p.parse(c.txtEntrada.text);
+          // c.txtResultado.text =
+          //     exp.evaluate(EvaluationType.REAL, ctxtm).toString();
 
           // setState(() {
           //   txtResultado.text =
