@@ -186,8 +186,8 @@ class MyHomePage extends StatelessWidget {
               fontSize: 28.0, color: Colors.black, fontFamily: 'RobotoMono'),
         ),
         onPressed: () {
-          c.txtEntrada.value = "";
-          c.txtResultado.value = "";
+          c.txtEntrada.value = "0";
+          c.txtResultado.value = "Resultado";
           // c.txtEntrada.text = "";
           // c.txtResultado.text = "";
           // setState(() {
@@ -217,7 +217,7 @@ class MyHomePage extends StatelessWidget {
         onPressed: () {
           c.txtEntrada.value = (c.txtEntrada.value.isNotEmpty)
               ? (c.txtEntrada.value.substring(0, c.txtEntrada.value.length - 1))
-              : "";
+              : "0";
           // c.txtEntrada.text = (c.txtEntrada.text.isNotEmpty)
           //     ? (c.txtEntrada.text.substring(0, c.txtEntrada.text.length - 1))
           //     : "";
